@@ -1,0 +1,121 @@
+{%  extends 'base.html' %}
+
+{% block header %}
+<h1>
+    {% block title %}Recommend{% endblock %}
+    <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#help" aria-expanded="true" aria-controls="help">
+    Hide/Show
+    </button>
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="collapse show" id="help">
+<div class="card card-body">
+    <p>Two recommendation methods are available :</p>
+    <ul>
+        <li><b>TF-IDF similarity</b> recommend papers that have similar titles and abstracts with the input papers. It is
+            based on TF-IDF similarity on titles and abstracts of papers (need papers with title and abstract),</li>
+        <li><b>Common fields of study</b> recommend papers that have common fields of study (keywords) with the input papers.
+            It is based on Jaccard index on fields of study (need papers with fields of study).</li>
+    </ul>
+    <p>The corpus used for recommendations is
+        <a href="https://www.aminer.org/citation" target="_blank">DBLP-Citation-network V12</a> which
+        contains 4,894,081 papers.</p>
+</div>
+</div>
+
+<h3>Inputs</h3>
+
+{% if get_flashed_messages() %}
+{% import 'message.html' as message_macro %}
+{{ message_macro.message_render(get_flashed_messages(with_categories=true)) }}
+{% endif %}
+
+<table
+    id="table"
+    data-toggle="table"
+    data-flat="true"
+    data-pagination="true"
+    data-page-size="20"
+    data-page-list="[20,40,100,200]">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Publication Year</th>
+        <th>Venue</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for paper in papers %}
+    <tr>
+        <td>
+            <form action="{{ url_for('recommend.remove_input') }}" method="post">
+                <button class="btn btn-danger btn-sm" type="submit" value="Recommend">x</button>
+                <input id="{{ paper['id'] }}" name="id" type="hidden" value="{{ paper['id'] }}">
+            </form>
+        </td>
+        <td>{{ paper['id'] }}</td>
+        <td>{{ paper['title'] }}</td>
+        <td>{{ paper['author'] }}</td>
+        <td>{{ paper['year'] }}</td>
+        <td>{{ paper['venue'] }}</td>
+        <td>
+            <button class="btn btn-default btn-sm" data-target="#collapse{{ paper['id'] }}" data-toggle="collapse"
+                    type="button">
+                <b>+</b>
+            </button>
+        </td>
+    </tr>
+    <tr class="collapse" id="collapse{{ paper['id'] }}">
+        <td colspan="7">
+            <div>
+                <b>ID</b> : {{ paper['id'] }}<br/>
+                <b>Title</b> : {{ paper['title'] }}<br/>
+                <b>Authors</b> : {{ paper['authors'] }}<br/>
+                <b>Year</b> : {{ paper['year'] }}<br/>
+                <b>Citations</b> : {{ paper['n_citation'] }}<br/>
+                <b>References</b> : {{ paper['n_reference'] }}<br/>
+                <b>Type</b> : {{ paper['doc_type'] }}<br/>
+                <b>Venue</b> : {{ paper['venue'] }}<br/>
+                <b>Volume</b> : {{ paper['volume'] }}<br/>
+                <b>Issue</b> : {{ paper['issue'] }}<br/>
+                <b>Doi</b> : <a href="https://doi.org/{{ paper['doi'] }}" target="_blank">{{ paper['doi'] }}</a><br/>
+                <b>Publisher</b> : {{ paper['publisher'] }}<br/>
+                <b>Fields of study</b> : {{ paper['fos'] }}<br/>
+                <b>Abstract</b> : {{ paper['abstract'] }}
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<form action="{{ url_for('recommend.recommend') }}" method="post">
+    <div class="form-group">
+        Choose a recommendation method:
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="method" id="bm25" value="bm25" checked>
+            <label class="form-check-label" for="bm25">
+            TF-IDF similarity (need papers with title AND abstract !)
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="method" id="fos_jaccard" value="fos_jaccard">
+            <label class="form-check-label" for="fos_jaccard">
+            Common fields of study (need papers with keywords !)
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input checked class="form-check-input" name="keep" id="keep" type="checkbox">
+            <label class="form-check-label" for="keep">Keep input papers</label>
+        </div>
+    </div>
+    <button class="btn btn-primary btn-lg" type="submit" value="Recommend">Recommend</button>
+</form>
+{% endblock %}

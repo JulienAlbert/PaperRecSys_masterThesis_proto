@@ -1,0 +1,142 @@
+{%  extends 'base.html' %}
+
+{% block sidebar %}
+<ul class="nav flex-column nav-fill">
+    <li class="nav-item">
+        <a class="nav-link" href="#">
+            Authors
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#venues">
+            Venues
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#fos">
+            Fields of study
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#years">
+            Years
+        </a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block header %}
+<h1>{% block title %}Dashboard{% endblock %}
+    <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#help" aria-expanded="true" aria-controls="help">
+    Hide/Show
+    </button>
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="collapse show" id="help">
+  <div class="card card-body">
+      <p>The lists and statistics are based on the current recommendation results.</p>
+  </div>
+</div>
+
+{% if get_flashed_messages() %}
+{% import 'message.html' as message_macro %}
+{{ message_macro.message_render(get_flashed_messages(with_categories=true)) }}
+{% endif %}
+
+<h3 id="authors">Authors</h3>
+<table
+        id="author_table"
+        data-toggle="table"
+        data-flat="true"
+        data-search="true"
+        data-pagination="true">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Organization</th>
+        <th>Occurrences</th>
+        <th>Citations</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for author in authors %}
+    <tr>
+        <td>{{ author['id'] }}</td>
+        <td>{{ author['name'] }}</td>
+        <td>{{ author['org'] }}</td>
+        <td>{{ author['n_occ'] }}</td>
+        <td>{{ author['n_cit'] }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<hr>
+
+<h3 id="venues">Venues</h3>
+<table
+        id="venue_table"
+        data-toggle="table"
+        data-flat="true"
+        data-search="true"
+        data-pagination="true">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Occurrences</th>
+        <th>Citations</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for venue in venues %}
+    <tr>
+        <td>{{ venue['id'] }}</td>
+        <td>{{ venue['name'] }}</td>
+        <td>{{ venue['type'] }}</td>
+        <td>{{ venue['n_occ'] }}</td>
+        <td>{{ venue['n_cit'] }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<hr>
+
+<h3 id="fos">Fields of study</h3>
+<table
+        id="fos_table"
+        data-toggle="table"
+        data-flat="true"
+        data-search="true"
+        data-pagination="true">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Occurrences</th>
+        <th>Citations</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for fos in fos_list %}
+    <tr>
+        <td>{{ fos['id'] }}</td>
+        <td>{{ fos['name'] }}</td>
+        <td>{{ fos['n_occ'] }}</td>
+        <td>{{ fos['n_cit'] }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<hr>
+
+<h3 id="years">Years</h3>
+<ul>
+    {% for year in years %}
+    <li><b>{{ year['year'] }}</b> : {{ year['n_occ'] }} occurrences</li>
+    {% endfor %}
+</ul>
+{% endblock %}

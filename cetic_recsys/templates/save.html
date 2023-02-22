@@ -1,0 +1,27 @@
+{%  extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Save{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<h3>Results</h3>
+
+{% if get_flashed_messages() %}
+{% import 'message.html' as message_macro %}
+{{ message_macro.message_render(get_flashed_messages(with_categories=true)) }}
+{% endif %}
+
+<form method="post">
+    {% import 'paper_table.html' as paper_table_macro %}
+    {{ paper_table_macro.table_render(papers) }}
+    <button class="btn btn-primary btn-lg" type="submit" formaction="{{ url_for('save.export') }}">Export selected papers</button>
+    <button class="btn btn-danger btn-lg" type="submit" formaction="{{ url_for('save.delete') }}">Delete selected papers</button>
+</form>
+
+{% if export_bibtex %}
+<hr>
+<h3>Bibtex export</h3>
+<textarea class="form-control" rows="20">{{ export_bibtex }}</textarea>
+{% endif %}
+{% endblock %}

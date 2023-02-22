@@ -1,0 +1,64 @@
+{%  extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Introduction{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<p>This research-paper recommendation system aims to help the researcher in his bibliographical
+    search by being an alternative to traditional search engines. It recommends papers on the basis of
+    a selection of papers proposed by the user.
+    In contrast to conventional recommendation systems which are based on a one-shot
+    interaction scenario, this system can work iteratively by using precedent recommendations as inputs
+    for the next ones. The workflow is composed of four parts :</p>
+<ol>
+    <li>Loading some papers as input to the recommendation engine, either by text search with
+        <a href="{{ url_for('search.search') }}">Search</a> or by loading from bibtex format records with
+        <a href="{{ url_for('load.load') }}">Load</a>.
+    </li>
+    <li>Launch the recommendation engine with the input papers and the chosen method with
+        <a href="{{ url_for('recommend.recommend') }}">Recommend</a>.
+    </li>
+    <li>Exploit the obtained recommendations, either by consulting the paper list with
+        <a href="{{ url_for('exploit.show') }}">Exploit</a>, or by getting some insight about the field with
+        <a href="{{ url_for('dashboard.show') }}">Dashboard</a>.
+    </li>
+    <li>Save some results and export them in bibtex format with <a href="{{ url_for('save.show') }}">Save</a>.</li>
+</ol>
+<p class="alert alert-warning" role="alert">This is yet a prototype, so there might still be a few bugs and some parts can be slow ! This is especially true
+for the recommend methods which involve big database queries. In these cases, you may encounter 502 or 504 error but
+a retry should solve the problem.</p>
+<h3>User study</h3>
+<p>If you have some time and wish to contribute to the development of this tool, do not hesitate to take this user study.</p>
+<p>Objectives of the study:</p>
+<ul>
+    <li>Assess the general interest of this tool for literature research.</li>
+    <li>Assess 2 recommendation methods according to various criteria.</li>
+    <li>Assess the ability of sorting features to improve displayed results according to various criteria.</li>
+</ul>
+<p>Instructions for the user study:</p>
+<ol>
+    <li>Select 1-5 papers about a research topic of interest as an input for recommendation
+        (with <a href="{{ url_for('search.search') }}">Search</a> and/or
+        <a href="{{ url_for('load.load') }}">Load</a> modules).</li>
+    <li>Select a recommendation method and launch the recommendation process
+        (<a href="{{ url_for('recommend.recommend') }}">Recommend</a> module).</li>
+    <li>Take a look at the first 10 results displayed (<a href="{{ url_for('exploit.show') }}">Exploit</a> module).</li>
+    <li>Use the sort features to improve the first 10 results.</li>
+    <li>Take a look a the <a href="{{ url_for('dashboard.show') }}">Dashboard</a> module.</li>
+    <li>Fill the <a href="https://docs.google.com/forms/d/e/1FAIpQLSduMDLHTUVlkp2I2f5HtcLLhqcpVpzQmOTk45tWEURzqrKb1g/viewform?usp=sf_link" target="_blank">survey form</a>.</li>
+    <li>(Optional, but highly appreciated) Repeat steps 1-6 with another untried recommendation method.</li>
+</ol>
+<hr/>
+<p>
+    This prototype was developed by Julien Albert, master student in CS at
+    <a href="https://www.unamur.be/info" target="_blank">UNamur</a>, during his internship at the
+    <a href="https://www.cetic.be/" target="_blank">CETIC</a>, under the supervision of
+    <a href="https://www.cetic.be/Mathieu-Goeminne" target="_blank">Mathieu Goeminne</a> (CETIC) and
+    <a href="https://directory.unamur.be/staff/bfrenay" target="_blank">Benoît Frenay</a> (UNamur).
+</p>
+
+<form action="{{ url_for('index.reset_profile') }}" method="get">
+    <button class="btn btn-danger btn-lg" type="submit">Clear profile</button>
+</form>
+{% endblock %}

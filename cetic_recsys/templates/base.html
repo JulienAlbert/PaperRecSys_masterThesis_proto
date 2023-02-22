@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <title>{% block title %}{% endblock %} - CETIC-RecSys</title>
+</head>
+<body>
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('index.index') }}">CETIC-RecSys</a>
+    <a class="nav-link" href="{{ url_for('load.load') }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Load</button>
+    </a>
+    <a class="nav-link" href="{{ url_for('search.search') }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </a>
+    <a class="nav-link" href="{{ url_for('recommend.recommend') }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recommend</button>
+    </a>
+    <a class="nav-link" href="{{ url_for('exploit.show') }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Exploit</button>
+    </a>
+    <a class="nav-link" href="{{ url_for('dashboard.show') }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Dashboard</button>
+    </a>
+    <a class="nav-link" href="{{ url_for('save.show') }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+    </a>
+</nav>
+
+<main class="container-fluid" role="main">
+    <div class="row">
+
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                {% block sidebar %}{% endblock %}
+            </div>
+        </nav>
+
+        <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <header>
+                {% block header %}{% endblock %}
+            </header>
+            {% block content %}{% endblock %}
+        </section>
+
+    </div>
+</main>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

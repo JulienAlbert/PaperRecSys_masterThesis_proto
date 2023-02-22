@@ -1,0 +1,47 @@
+{%  extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Search{% endblock %}
+    <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#help" aria-expanded="true" aria-controls="help">
+    Hide/Show
+    </button>
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="collapse show" id="help">
+  <div class="card card-body">
+      <p>You can manage the results with the following buttons:</p>
+      <ul>
+          <li><button class="btn btn-primary btn-sm" type="submit">Input selected papers</button> adds the selected papers
+          to the inputs for recommendation (<a href="{{ url_for('recommend.recommend') }}">Recommend</a> module).</li>
+          <li><button class="btn btn-success btn-sm" type="submit">Save selected papers</button> adds the selected papers
+          to the <a href="{{ url_for('save.show') }}">Save</a> module.</li>
+          <li><button class="btn btn-danger btn-sm" type="submit">Delete selected papers</button> removes selected papers
+          from the current results.</li>
+      </ul>
+  </div>
+</div>
+
+<form action="{{ url_for('search.search') }}" method="post">
+    <div class="form-group">
+        <input class="form-control" id="searched_text" name="searched_text" placeholder="Search query : Title, DOI or other keywords">
+        <button class="btn btn-primary mt-2" type="submit">Submit</button>
+    </div>
+</form>
+
+<h3>Results</h3>
+
+{% if get_flashed_messages() %}
+{% import 'message.html' as message_macro %}
+{{ message_macro.message_render(get_flashed_messages(with_categories=true)) }}
+{% endif %}
+
+<form method="post">
+    {% import 'paper_table.html' as paper_table_macro %}
+    {{ paper_table_macro.table_render(papers) }}
+    <button class="btn btn-primary btn-lg" type="submit" formaction="{{ url_for('search.add') }}">Input selected papers</button>
+    <button class="btn btn-success btn-lg" type="submit" formaction="{{ url_for('search.save') }}">Save selected papers</button>
+    <button class="btn btn-danger btn-lg" type="submit" formaction="{{ url_for('search.delete') }}">Delete selected papers</button>
+</form>
+{% endblock %}

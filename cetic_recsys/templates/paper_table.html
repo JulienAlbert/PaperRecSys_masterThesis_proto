@@ -1,0 +1,66 @@
+{% macro table_render(papers) %}
+
+<table
+    id="table"
+    data-toggle="table"
+    data-flat="true"
+    data-search="true"
+    data-pagination="true"
+    data-page-size="20"
+    data-page-list="[20,40,100,200]">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Publication Year</th>
+        <th>Venue</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for paper in papers %}
+    <tr>
+        <td>
+            <div class="form-radio">
+                <input id="{{ paper['id'] }}" name="id" type="checkbox" value="{{ paper['id'] }}">
+            </div>
+        </td>
+        <td>{{ paper['id'] }}</td>
+        <td>{{ paper['title'] }}</td>
+        <td>{{ paper['authors'] }}</td>
+        <td>{{ paper['year'] }}</td>
+        <td>{{ paper['venue'] }}</td>
+        <td>
+            <button class="btn btn-default btn-sm" data-target="#collapse{{ paper['id'] }}" data-toggle="collapse"
+                    type="button">
+                <b>+</b>
+            </button>
+        </td>
+    </tr>
+    <tr class="collapse" id="collapse{{ paper['id'] }}">
+        <td colspan="7">
+            <div>
+                <b>ID</b> : {{ paper['id'] }}<br/>
+                <b>Title</b> : {{ paper['title'] }}<br/>
+                <b>Authors</b> : {{ paper['authors'] }}<br/>
+                <b>Year</b> : {{ paper['year'] }}<br/>
+                <b>Citations</b> : {{ paper['n_citation'] }}<br/>
+                <b>References</b> : {{ paper['n_reference'] }}<br/>
+                <b>Type</b> : {{ paper['doc_type'] }}<br/>
+                <b>Venue</b> : {{ paper['venue'] }}<br/>
+                <b>Volume</b> : {{ paper['volume'] }}<br/>
+                <b>Issue</b> : {{ paper['issue'] }}<br/>
+                <b>Doi</b> : <a href="https://doi.org/{{ paper['doi'] }}" target="_blank">{{ paper['doi'] }}</a><br/>
+                <b>Publisher</b> : {{ paper['publisher'] }}<br/>
+                <b>Fields of study</b> : {{ paper['fos'] }}<br/>
+                <b>Abstract</b> : {{ paper['abstract'] }}
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endmacro %}
