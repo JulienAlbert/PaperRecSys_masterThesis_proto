@@ -86,7 +86,9 @@ Description of the main files :
 
 This prototype was developed by Julien Albert, master student in CS at UNamur, during his
 internship at the CETIC, under the supervision of Mathieu Goeminne (CETIC) and Benoît
-Frenay (UNamur). 
+Frenay (UNamur).
+
+Master's Thesis : https://researchportal.unamur.be/fr/studentTheses/conception-dun-syst%C3%A8me-de-recommandation-de-litt%C3%A9rature-scientifi
 
 App source : https://flask.palletsprojects.com/en/1.1.x/tutorial/
 
